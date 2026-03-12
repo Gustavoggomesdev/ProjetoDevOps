@@ -1,4 +1,4 @@
-# 🎬 Media Vault - Catálogo de Filmes e Jogos
+# 🎬 Katalog - Catálogo de Filmes e Jogos
 
 > Uma biblioteca pessoal elegante e intuitiva para organizar, catalogar e gerenciar seus filmes e jogos assistidos ou jogados. Nunca mais esqueça o que você experimentou!
 
