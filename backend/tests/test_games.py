@@ -1,36 +1,16 @@
 import pytest
-from django.contrib.auth.models import User
 from apps.games.models import Game
 
 
 @pytest.mark.django_db
-class TestGameModel:
-    
-    def test_create_game(self):
-        user = User.objects.create_user(username='testuser', password='testpass')
-        game = Game.objects.create(
-            title='Test Game',
-            platform='pc',
-            genre='action',
-            developer='Test Dev',
-            release_year=2024,
-            user=user,
-            status='playing'
-        )
-        assert game.title == 'Test Game'
-        assert game.user == user
-    
-    def test_game_progress(self):
-        user = User.objects.create_user(username='testuser', password='testpass')
-        game = Game.objects.create(
-            title='Test Game',
-            platform='ps5',
-            genres='RPG',
-            developer='Test Dev',
-            release_year=2024,
-            user=user,
-            progress=50,
-            hours_played=20
-        )
-        assert game.progress == 50
-        assert game.hours_played == 20
+class TestGameAPI:
+    def test_list_games(self, api_client):
+        Game.objects.create(title="Zelda", release_year=2023, genre="Adventure")
+        response = api_client.get("/api/games/")
+        assert response.status_code == 200
+        assert response.data["count"] == 1
+
+    def test_create_game_authenticated(self, auth_client):
+        data = {"title": "Dark Souls", "release_year": 2011, "genre": "RPG"}
+        response = auth_client.post("/api/games/", data)
+        assert response.status_code == 201

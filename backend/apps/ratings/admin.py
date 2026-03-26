@@ -4,7 +4,5 @@ from .models import Rating
 
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'rating', 'content_type', 'created_at')
-    list_filter = ('rating', 'created_at', 'content_type')
-    search_fields = ('user__username', 'comment')
-    readonly_fields = ('created_at', 'updated_at')
+    list_display = ["user", "content_type", "object_id", "score", "created_at"]
+    list_filter = ["content_type", "score"]

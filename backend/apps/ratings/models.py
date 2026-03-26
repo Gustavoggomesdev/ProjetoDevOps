@@ -1,23 +1,27 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.conf import settings
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    CONTENT_TYPE_CHOICES = [
+        ("movie", "Filme"),
+        ("game", "Jogo"),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="ratings")
+    content_type = models.CharField(max_length=10, choices=CONTENT_TYPE_CHOICES)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-    
-    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)])
-    comment = models.TextField(blank=True)
+    score = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
+    review = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['user', 'content_type', 'object_id']
-        ordering = ['-created_at']
+        verbose_name = "Avaliação"
+        verbose_name_plural = "Avaliações"
+        unique_together = ["user", "content_type", "object_id"]
+        ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.user.username} - {self.rating} stars"
+        return f"{self.user} - {self.content_type}:{self.object_id} ({self.score}/10)"

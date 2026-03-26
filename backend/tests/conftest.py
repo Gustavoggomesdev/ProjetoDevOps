@@ -1,27 +1,25 @@
-"""
-Fixtures e utilitários de teste para o projeto Media Vault.
-"""
 import pytest
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 @pytest.fixture
-def test_user(db):
-    """Cria um usuário de teste."""
+def user(db):
     return User.objects.create_user(
-        username='testuser',
-        email='test@example.com',
-        password='testpass123'
+        username="testuser",
+        email="test@example.com",
+        password="testpassword123",
     )
 
 
 @pytest.fixture
-def test_user_with_profile(test_user):
-    """Cria um usuário com perfil completo."""
-    from apps.users.models import UserProfile
-    profile = test_user.profile
-    profile.bio = 'Test user bio'
-    profile.favorite_genre_movies = 'Action'
-    profile.favorite_genre_games = 'RPG'
-    profile.save()
-    return test_user
+def api_client():
+    from rest_framework.test import APIClient
+    return APIClient()
+
+
+@pytest.fixture
+def auth_client(api_client, user):
+    api_client.force_authenticate(user=user)
+    return api_client
