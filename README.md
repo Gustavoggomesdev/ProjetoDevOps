@@ -157,20 +157,29 @@ ProjetoDevOps/
 
 ## 🧪 Testes
 
-Execute os testes com:
+Os testes ficam no `backend/` e usam `pytest`.
 
 ```bash
-# Testes com pytest
-pytest
+# entrar no backend
+cd backend
+
+# instalar dependências (se ainda não tiver instalado)
+python -m pip install -r requirements.txt
+
+# rodar todos os testes
+python -m pytest
 
 # Testes com cobertura
-pytest --cov=apps
+python -m pytest --cov=apps
 
 # Rodar testes do Django
 python manage.py test
 
-# Testes específicos de um app
-pytest apps/movies/tests/
+# Rodar um arquivo específico
+python -m pytest tests/test_api_games.py
+
+# Rodar um teste pelo nome
+python -m pytest -k statistics
 ```
 
 ## 🐳 Usando Docker

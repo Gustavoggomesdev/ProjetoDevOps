@@ -11,7 +11,7 @@ class TestGameModel:
         game = Game.objects.create(
             title='Test Game',
             platform='pc',
-            genre='action',
+            genres='action',
             developer='Test Dev',
             release_year=2024,
             user=user,

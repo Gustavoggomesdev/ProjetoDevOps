@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 class UsersConfig(AppConfig):
@@ -10,6 +10,7 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         from .models import UserProfile
+        User = get_user_model()
         
         def create_user_profile(sender, instance, created, **kwargs):
             if created:
