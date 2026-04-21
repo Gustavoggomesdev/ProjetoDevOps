@@ -258,25 +258,5 @@ Contribuições são bem-vindas! Para contribuir:
 - [ ] Histórico de alterações
 - [ ] Exportação de dados (CSV, PDF)
 
-## 🐛 Reportar Bugs
 
-Encontrou um bug? Por favor, abra uma [issue](https://github.com/Gustavoggomesdev/ProjetoDevOps/issues) com:
 
-- Descrição do problema
-- Passos para reproduzir
-- Comportamento esperado vs. observado
-- Screenshots (se aplicável)
-
-## 📧 Contato
-
-- **Email**: seu-email@example.com
-- **GitHub**: [@Gustavoggomesdev](https://github.com/Gustavoggomesdev)
-- **LinkedIn**: [seu-perfil](https://linkedin.com/in/seu-perfil)
-
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
----
-
-**Desenvolvido com ❤️ por [Gustavo Gomes](https://github.com/Gustavoggomesdev)**
