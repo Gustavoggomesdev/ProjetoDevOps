@@ -29,13 +29,6 @@ jobs:
       run:
         working-directory: backend
 
-    env:
-      DB_ENGINE: django.db.backends.postgresql
-      DB_NAME: media_vault_test
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: localhost
-      DB_PORT: 5432
 
     steps:
       - uses: actions/checkout@v4
