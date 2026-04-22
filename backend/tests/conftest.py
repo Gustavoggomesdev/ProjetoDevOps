@@ -18,7 +18,6 @@ def test_user(db):
 @pytest.fixture
 def test_user_with_profile(test_user):
     """Cria um usuário com perfil completo."""
-    from apps.users.models import UserProfile
     profile = test_user.profile
     profile.bio = 'Test user bio'
     profile.favorite_genre_movies = 'Action'

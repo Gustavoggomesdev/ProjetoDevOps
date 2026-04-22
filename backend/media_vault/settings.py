@@ -3,6 +3,7 @@ Django settings for media_vault project.
 """
 
 import os
+import sys
 from pathlib import Path
 from decouple import config
 
@@ -71,6 +72,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'media_vault.wsgi.application'
 
 # Database
+IS_TESTING = 'PYTEST_CURRENT_TEST' in os.environ or any('pytest' in arg for arg in sys.argv)
+USE_EXTERNAL_DB_FOR_TESTS = config('USE_EXTERNAL_DB_FOR_TESTS', default=False, cast=bool)
 DATABASES = {
     'default': {
         'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
@@ -81,6 +84,13 @@ DATABASES = {
         'PORT': config('DB_PORT', default=''),
     }
 }
+if IS_TESTING and not USE_EXTERNAL_DB_FOR_TESTS:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

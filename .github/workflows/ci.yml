@@ -101,6 +101,14 @@ jobs:
         # Observação: este job assume que o backend consegue conectar no Postgres do service (localhost:5432)
         # usando as credenciais acima (como isso é configurado depende do settings do projeto).
         run: pytest --cov=apps
+        env:
+          USE_EXTERNAL_DB_FOR_TESTS: "true"
+          DB_ENGINE: django.db.backends.postgresql
+          DB_NAME: media_vault_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_HOST: localhost
+          DB_PORT: "5432"
 
   frontend-lint:
     runs-on: ubuntu-latest
