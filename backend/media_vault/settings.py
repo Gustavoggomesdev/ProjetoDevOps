@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     # Local apps
     'apps.movies',
     'apps.games',
-    'apps.users',
+    'apps.users.apps.UsersConfig',
     'apps.ratings',
 ]
 

@@ -157,20 +157,29 @@ ProjetoDevOps/
 
 ## 🧪 Testes
 
-Execute os testes com:
+Os testes ficam no `backend/` e usam `pytest`.
 
 ```bash
-# Testes com pytest
-pytest
+# entrar no backend
+cd backend
+
+# instalar dependências (se ainda não tiver instalado)
+python -m pip install -r requirements.txt
+
+# rodar todos os testes
+python -m pytest
 
 # Testes com cobertura
-pytest --cov=apps
+python -m pytest --cov=apps
 
 # Rodar testes do Django
 python manage.py test
 
-# Testes específicos de um app
-pytest apps/movies/tests/
+# Rodar um arquivo específico
+python -m pytest tests/test_api_games.py
+
+# Rodar um teste pelo nome
+python -m pytest -k statistics
 ```
 
 ## 🐳 Usando Docker
@@ -249,25 +258,5 @@ Contribuições são bem-vindas! Para contribuir:
 - [ ] Histórico de alterações
 - [ ] Exportação de dados (CSV, PDF)
 
-## 🐛 Reportar Bugs
 
-Encontrou um bug? Por favor, abra uma [issue](https://github.com/Gustavoggomesdev/ProjetoDevOps/issues) com:
 
-- Descrição do problema
-- Passos para reproduzir
-- Comportamento esperado vs. observado
-- Screenshots (se aplicável)
-
-## 📧 Contato
-
-- **Email**: seu-email@example.com
-- **GitHub**: [@Gustavoggomesdev](https://github.com/Gustavoggomesdev)
-- **LinkedIn**: [seu-perfil](https://linkedin.com/in/seu-perfil)
-
-## 📄 Licença
-
-Este projeto está licenciado sob a MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
----
-
-**Desenvolvido com ❤️ por [Gustavo Gomes](https://github.com/Gustavoggomesdev)**
