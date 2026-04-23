@@ -14,93 +14,101 @@ def _client_for(user):
 
 
 def test_games_list_filtra_por_usuario():
-    user_1 = User.objects.create_user(username='u1', password='pass12345')
-    user_2 = User.objects.create_user(username='u2', password='pass12345')
+    user_1 = User.objects.create_user(username="u1", password="pass12345")
+    user_2 = User.objects.create_user(username="u2", password="pass12345")
 
-    Game.objects.create(title='G1', genres='action', platform='pc', release_year=2024, user=user_1)
-    Game.objects.create(title='G2', genres='rpg', platform='ps5', release_year=2024, user=user_2)
+    Game.objects.create(
+        title="G1", genres="action", platform="pc", release_year=2024, user=user_1
+    )
+    Game.objects.create(
+        title="G2", genres="rpg", platform="ps5", release_year=2024, user=user_2
+    )
 
-    response = _client_for(user_1).get('/api/games/')
+    response = _client_for(user_1).get("/api/games/")
     assert response.status_code == 200
-    assert response.data['count'] == 1
-    assert response.data['results'][0]['title'] == 'G1'
+    assert response.data["count"] == 1
+    assert response.data["results"][0]["title"] == "G1"
 
 
 def test_games_search_filtra_por_titulo_ou_descricao():
-    user = User.objects.create_user(username='u1', password='pass12345')
+    user = User.objects.create_user(username="u1", password="pass12345")
 
     Game.objects.create(
-        title='Elden Ring',
-        description='Soulslike',
-        genres='rpg',
-        platform='pc',
+        title="Elden Ring",
+        description="Soulslike",
+        genres="rpg",
+        platform="pc",
         release_year=2022,
         user=user,
     )
     Game.objects.create(
-        title='Forza Horizon',
-        description='Corrida arcade',
-        genres='racing',
-        platform='xbox-series',
+        title="Forza Horizon",
+        description="Corrida arcade",
+        genres="racing",
+        platform="xbox-series",
         release_year=2021,
         user=user,
     )
 
-    response = _client_for(user).get('/api/games/search/?q=souls')
+    response = _client_for(user).get("/api/games/search/?q=souls")
     assert response.status_code == 200
     assert len(response.data) == 1
-    assert response.data[0]['title'] == 'Elden Ring'
+    assert response.data[0]["title"] == "Elden Ring"
 
 
 def test_games_by_platform_filtra_plataforma():
-    user = User.objects.create_user(username='u1', password='pass12345')
+    user = User.objects.create_user(username="u1", password="pass12345")
 
-    Game.objects.create(title='G1', genres='action', platform='pc', release_year=2024, user=user)
-    Game.objects.create(title='G2', genres='action', platform='ps5', release_year=2024, user=user)
+    Game.objects.create(
+        title="G1", genres="action", platform="pc", release_year=2024, user=user
+    )
+    Game.objects.create(
+        title="G2", genres="action", platform="ps5", release_year=2024, user=user
+    )
 
-    response = _client_for(user).get('/api/games/by_platform/?platform=ps5')
+    response = _client_for(user).get("/api/games/by_platform/?platform=ps5")
     assert response.status_code == 200
     assert len(response.data) == 1
-    assert response.data[0]['title'] == 'G2'
+    assert response.data[0]["title"] == "G2"
 
 
 def test_games_statistics_agrega_contagens_e_horas():
-    user = User.objects.create_user(username='u1', password='pass12345')
+    user = User.objects.create_user(username="u1", password="pass12345")
 
     Game.objects.create(
-        title='G1',
-        genres='action',
-        platform='pc',
+        title="G1",
+        genres="action",
+        platform="pc",
         release_year=2024,
         user=user,
-        status='completed',
+        status="completed",
         hours_played=10,
     )
     Game.objects.create(
-        title='G2',
-        genres='rpg',
-        platform='ps5',
+        title="G2",
+        genres="rpg",
+        platform="ps5",
         release_year=2024,
         user=user,
-        status='playing',
+        status="playing",
         hours_played=5,
     )
     Game.objects.create(
-        title='G3',
-        genres='rpg',
-        platform='ps5',
+        title="G3",
+        genres="rpg",
+        platform="ps5",
         release_year=2024,
         user=user,
-        status='wishlist',
+        status="wishlist",
         hours_played=0,
     )
 
-    response = _client_for(user).get('/api/games/statistics/')
+    response = _client_for(user).get("/api/games/statistics/")
     assert response.status_code == 200
     assert response.data == {
-        'total_games': 3,
-        'completed': 1,
-        'playing': 1,
-        'wishlist': 1,
-        'total_hours': 15,
+        "total_games": 3,
+        "completed": 1,
+        "playing": 1,
+        "wishlist": 1,
+        "total_hours": 15,
     }
