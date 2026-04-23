@@ -14,34 +14,39 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_object(self):
         return self.request.user
 
-    @action(detail=False, methods=['post'], permission_classes=[AllowAny])
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
     def register(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             return Response(
-                {'message': 'User created successfully', 'user': UserSerializer(user).data},
-                status=status.HTTP_201_CREATED
+                {
+                    "message": "User created successfully",
+                    "user": UserSerializer(user).data,
+                },
+                status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def profile(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def statistics(self, request):
         from apps.movies.models import Movie
         from apps.games.models import Game
-        
+
         movies = Movie.objects.filter(user=request.user)
         games = Game.objects.filter(user=request.user)
-        
-        return Response({
-            'total_movies': movies.count(),
-            'watched_movies': movies.filter(status='watched').count(),
-            'total_games': games.count(),
-            'completed_games': games.filter(status='completed').count(),
-            'total_hours_played': sum([g.hours_played for g in games]),
-        })
+
+        return Response(
+            {
+                "total_movies": movies.count(),
+                "watched_movies": movies.filter(status="watched").count(),
+                "total_games": games.count(),
+                "completed_games": games.filter(status="completed").count(),
+                "total_hours_played": sum([g.hours_played for g in games]),
+            }
+        )
