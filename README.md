@@ -1,4 +1,4 @@
-# 🎬 Katalog - Catálogo de Filmes e Jogos
+# Katalog - Catálogo de Filmes e Jogos
 
 > Uma biblioteca pessoal elegante e intuitiva para organizar, catalogar e gerenciar seus filmes e jogos assistidos ou jogados. Nunca mais esqueça o que você experimentou!
 
@@ -6,18 +6,18 @@
 ![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow.svg)
 ![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)
 
-## ✨ Características
+## Características
 
-- 🎥 **Catálogo de Filmes** - Organize filmes por gênero, avaliação e status
-- 🎮 **Biblioteca de Jogos** - Acompanhe seus jogos jogados com notas e progressos
-- ⭐ **Sistema de Avaliações** - Avalie e comente sobre seus títulos favoritos
-- 🏆 **Estatísticas Pessoais** - Veja estatísticas sobre seus hábitos de consumo
-- 🔍 **Busca e Filtros** - Encontre rapidamente o que procura
-- 💾 **Sincronização** - Acesse seus dados em qualquer dispositivo
-- 🎨 **Interface Responsiva** - Design moderno e adaptável
-- 📱 **Aplicativo Mobile** - Acesso completo pelo seu smartphone
+- **Catálogo de Filmes** - Organize filmes por gênero, avaliação e status
+- **Biblioteca de Jogos** - Acompanhe seus jogos jogados com notas e progressos
+- **Sistema de Avaliações** - Avalie e comente sobre seus títulos favoritos
+- **Estatísticas Pessoais** - Veja estatísticas sobre seus hábitos de consumo
+- **Busca e Filtros** - Encontre rapidamente o que procura
+- **Sincronização** - Acesse seus dados em qualquer dispositivo
+- **Interface Responsiva** - Design moderno e adaptável
+- **Aplicativo Mobile** - Acesso completo pelo seu smartphone
 
-## 🚀 Início Rápido
+## Início Rápido
 
 ### Pré-requisitos
 
@@ -70,7 +70,7 @@
 
 O aplicativo estará disponível em `http://localhost:8000`
 
-## 📖 Como Usar
+## Como Usar
 
 ### Cadastrando um Filme
 
@@ -103,7 +103,7 @@ O aplicativo estará disponível em `http://localhost:8000`
 - Veja quantidade de filmes assistidos, jogos completados
 - Confira seus gêneros e plataformas favoritas
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Backend
 - **Django** - Framework web Python
@@ -126,7 +126,7 @@ O aplicativo estará disponível em `http://localhost:8000`
 - **Nginx** - Servidor web reverso
 - **Gunicorn** - Servidor WSGI para Django
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 ProjetoDevOps/
@@ -155,7 +155,7 @@ ProjetoDevOps/
 └── README.md
 ```
 
-## 🧪 Testes
+## Testes
 
 Os testes ficam no `backend/` e usam `pytest`.
 
@@ -182,29 +182,138 @@ python -m pytest tests/test_api_games.py
 python -m pytest -k statistics
 ```
 
-## 🐳 Usando Docker
+## Usando Docker
 
-### Build da imagem
+### Pré-requisitos
+- **Docker** (v20.10+)
+- **Docker Compose** (v1.29+)
+
+### 1. Configurar variáveis de ambiente
+Antes de começar, crie um arquivo `.env` na raiz do projeto com as variáveis necessárias:
+
 ```bash
-docker build -t media-vault:latest -f docker/Dockerfile .
+cp .env.example .env
 ```
 
-### Executar com Docker Compose
-```bash
-docker-compose -f docker/docker-compose.yml up -d
+Edite `.env` com suas configurações. Exemplo mínimo:
+```env
+DEBUG=0
+SECRET_KEY=sua-chave-secreta-super-segura-aqui
+DATABASE_URL=postgres://mediauser:mediapass@db:5432/media_vault
+REDIS_URL=redis://redis:6379/0
+ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
-### Parar os containers
+### 2. Build e iniciar os containers
 ```bash
-docker-compose -f docker/docker-compose.yml down
+# Acesse a pasta docker
+cd docker
+
+# Faz build de todas as imagens e inicia os containers
+docker compose up --build -d
+
+# Aguarde ~10-15 segundos para DB estar pronto
 ```
 
-### Ver logs
+### 3. Aplicar migrações e criar superuser
 ```bash
-docker-compose -f docker/docker-compose.yml logs -f
+# Rodar migrações do Django
+docker compose exec backend python manage.py migrate
+
+# Criar superuser (administrador)
+docker compose exec backend python manage.py createsuperuser
+
+# Coletar arquivos estáticos (se necessário)
+docker compose exec backend python manage.py collectstatic --noinput
 ```
 
-## 📊 Endpoints da API
+### 4. Acessar a aplicação
+- **Backend (API)**: `http://localhost:8000/`
+- **Admin**: `http://localhost:8000/admin/`
+- **Frontend**: `http://localhost:3000/` (se habilitado)
+
+### Comandos úteis
+
+#### Ver logs em tempo real
+```bash
+# Todos os serviços
+docker compose logs -f
+
+# Apenas backend
+docker compose logs -f backend
+
+# Apenas database
+docker compose logs -f db
+```
+
+#### Parar os containers
+```bash
+docker compose down
+```
+
+#### Parar e remover volumes (limpar dados)
+```bash
+docker compose down -v
+```
+
+#### Executar comandos no backend
+```bash
+# Abrir shell/terminal no container
+docker compose exec backend sh
+
+# Rodar testes
+docker compose exec backend python -m pytest
+
+# Rodar manage.py manualmente
+docker compose exec backend python manage.py <comando>
+```
+
+#### Reconstruir apenas um serviço
+```bash
+# Reconstruir apenas o backend
+docker compose up --build backend
+
+# Reconstruir apenas o frontend
+docker compose up --build frontend
+```
+
+#### Verificar saúde dos serviços
+```bash
+# Verificar se DB está pronto
+docker compose exec db pg_isready -U mediauser
+
+# Verificar se backend está respondendo
+curl http://localhost:8000/health/
+```
+
+### Estrutura do docker-compose.yml
+
+O `docker-compose.yml` define 5 serviços principais:
+
+| Serviço | Porta | Descrição |
+|---------|-------|-----------|
+| `db` | 5432 | PostgreSQL - banco de dados |
+| `redis` | 6379 | Redis - cache (opcional para Celery) |
+| `backend` | 8000 | Django API (exposto via Nginx) |
+| `frontend` | 3000 | React SPA (exposto via Nginx) |
+| `nginx` | 80 | Servidor reverso que roteia os serviços |
+
+### Volumes
+Os dados persistem em volumes mesmo após parar containers:
+- `postgres_data` - Banco de dados PostgreSQL
+- `static_volume` - Arquivos estáticos (CSS, JS, admin)
+- `media_volume` - Uploads de usuários (imagens, etc)
+
+### Produção
+
+Para deploy em produção:
+1. Use variáveis de ambiente seguras (secrets do Docker/Kubernetes/CI-CD)
+2. Configure `DEBUG=0` no `.env`
+3. Use reverse-proxy com SSL/TLS (Let's Encrypt)
+4. Configure CORS corretamente em `settings.py`
+5. Use gerenciador de secrets (HashiCorp Vault, AWS Secrets Manager, etc)
+
+## Endpoints da API
 
 ### Autenticação
 - `POST /api/auth/register/` - Registrar novo usuário
@@ -238,7 +347,7 @@ docker-compose -f docker/docker-compose.yml logs -f
 - `PUT /api/user/profile/` - Atualizar perfil
 - `GET /api/user/statistics/` - Obter estatísticas pessoais
 
-## 🤝 Contribuindo
+## Contribuindo
 
 Contribuições são bem-vindas! Para contribuir:
 
@@ -248,7 +357,7 @@ Contribuições são bem-vindas! Para contribuir:
 4. Push para a branch (`git push origin feature/MinhaFeature`)
 5. Abra um Pull Request
 
-## 📝 Roadmap
+## Roadmap
 
 - [ ] Integração com IMDb e IGDB
 - [ ] Sistema de recomendações
