@@ -1,0 +1,30 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+
+# Virtual environments
+.venv/
+venv/
+backend/venv/
+backend/.venv/
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# Git and editor files
+.git/
+.gitignore
+.vscode/
+.idea/
+
+# Build and runtime output
+backend/staticfiles/
+backend/media/
+frontend/build/
+frontend/node_modules/
+node_modules/
