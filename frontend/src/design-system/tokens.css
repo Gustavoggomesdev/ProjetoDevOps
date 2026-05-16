@@ -1,0 +1,40 @@
+:root {
+  --ds-color-brand-500: #6366f1;
+  --ds-color-brand-600: #4f46e5;
+  --ds-color-brand-400: #8b5cf6;
+  --ds-color-bg-default: #113569;
+  --ds-color-bg-strong: #020617;
+  --ds-color-surface: #022251;
+  --ds-color-border: #334155;
+  --ds-color-text-primary: #f1f5f9;
+  --ds-color-text-secondary: #cbd5e1;
+  --ds-color-success: #10b981;
+  --ds-color-danger: #ef4444;
+
+  --ds-radius-sm: 6px;
+  --ds-radius-md: 8px;
+  --ds-radius-full: 9999px;
+
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-5: 20px;
+
+  --ds-transition-fast: all 0.2s ease;
+  --ds-transition-base: all 0.3s ease;
+
+  /* Backward-compatible aliases for existing styles */
+  --primary-color: var(--ds-color-brand-500);
+  --secondary-color: var(--ds-color-brand-400);
+  --dark-bg: var(--ds-color-bg-default);
+  --darker-bg: var(--ds-color-bg-strong);
+  --card-bg: var(--ds-color-surface);
+  --border-color: var(--ds-color-border);
+  --text-primary: var(--ds-color-text-primary);
+  --text-secondary: var(--ds-color-text-secondary);
+  --hover-bg: var(--ds-color-surface);
+  --success-color: var(--ds-color-success);
+  --danger-color: var(--ds-color-danger);
+  --transition: var(--ds-transition-base);
+}

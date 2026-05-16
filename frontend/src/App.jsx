@@ -14,17 +14,15 @@ function App() {
     <Router>
       <div className="app-layout">
         <Sidebar />
-        <main className="app-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/movies" element={<Movies />} />
-            <Route path="/series" element={<Series />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/watchlist" element={<Watchlist />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/series" element={<Series />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </div>
     </Router>
   );

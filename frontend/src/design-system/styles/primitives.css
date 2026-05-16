@@ -1,0 +1,132 @@
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-sm);
+  cursor: pointer;
+  transition: var(--ds-transition-base);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.ds-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ds-btn--sm {
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.ds-btn--md {
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.ds-btn--lg {
+  font-size: 16px;
+  padding: 12px 20px;
+}
+
+.ds-btn--primary {
+  background-color: var(--ds-color-brand-500);
+  color: #ffffff;
+}
+
+.ds-btn--primary:hover:not(:disabled) {
+  background-color: var(--ds-color-brand-600);
+}
+
+.ds-btn--secondary {
+  background: transparent;
+  border-color: var(--ds-color-border);
+  color: var(--ds-color-text-secondary);
+}
+
+.ds-btn--secondary:hover:not(:disabled) {
+  border-color: var(--ds-color-brand-500);
+  color: var(--ds-color-brand-500);
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.ds-btn--ghost {
+  background: transparent;
+  color: var(--ds-color-text-primary);
+  border-color: var(--ds-color-border);
+}
+
+.ds-btn--ghost:hover:not(:disabled) {
+  border-color: var(--ds-color-brand-500);
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.ds-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.ds-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-radius-md);
+  background-color: var(--ds-color-bg-strong);
+  color: var(--ds-color-text-primary);
+  transition: var(--ds-transition-fast);
+}
+
+.ds-input--with-leading-icon {
+  padding-left: 40px;
+}
+
+.ds-input:focus {
+  outline: none;
+  border-color: var(--ds-color-brand-500);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+}
+
+.ds-input::placeholder {
+  color: var(--ds-color-text-secondary);
+}
+
+.ds-input-leading-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ds-color-text-secondary);
+  pointer-events: none;
+}
+
+.ds-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ds-radius-full);
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ds-badge--neutral {
+  color: var(--ds-color-text-primary);
+  background-color: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--ds-color-border);
+}
+
+.ds-badge--brand {
+  color: #ffffff;
+  background-color: var(--ds-color-brand-500);
+}
