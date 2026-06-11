@@ -22,7 +22,6 @@ ProjetoDevOps/
 │   │   ├── urls.py                    # 🛣️ Rotas
 │   │   ├── wsgi.py                    # 🌐 WSGI
 │   │   ├── asgi.py                    # 📡 ASGI
-│   │   └── celery.py                  # 📋 Celery
 │   │
 │   ├── apps/                          # 📱 Aplicações Django
 │   │   ├── __init__.py
@@ -115,7 +114,7 @@ ProjetoDevOps/
 
 ### DevOps
 - **docker/Dockerfile** - Imagem Python + Django + Gunicorn
-- **docker/docker-compose.yml** - Serviços (Django, React, PostgreSQL, Redis)
+- **docker/docker-compose.yml** - Serviços (Django, React, PostgreSQL)
 - **.github/workflows/ci.yml** - Pipeline CI/CD com testes
 
 ### Documentação

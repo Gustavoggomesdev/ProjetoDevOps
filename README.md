@@ -110,7 +110,6 @@ O aplicativo estará disponível em `http://localhost:8000`
 - **Django REST Framework** - Para construir a API REST
 - **PostgreSQL** - Banco de dados relacional
 - **Python 3.10+** - Linguagem de programação
-- **Celery** - Para tarefas assíncronas (futuro)
 - **JWT** - Autenticação via tokens
 
 ### Frontend
@@ -200,7 +199,6 @@ Edite `.env` com suas configurações. Exemplo mínimo:
 DEBUG=0
 SECRET_KEY=sua-chave-secreta-super-segura-aqui
 DATABASE_URL=postgres://mediauser:mediapass@db:5432/media_vault
-REDIS_URL=redis://redis:6379/0
 ALLOWED_HOSTS=localhost,127.0.0.1
 ```
 
@@ -288,21 +286,17 @@ curl http://localhost:8000/health/
 
 ### Estrutura do docker-compose.yml
 
-O `docker-compose.yml` define 5 serviços principais:
+O `docker-compose.yml` define 3 serviços principais:
 
 | Serviço | Porta | Descrição |
 |---------|-------|-----------|
 | `db` | 5432 | PostgreSQL - banco de dados |
-| `redis` | 6379 | Redis - cache (opcional para Celery) |
-| `backend` | 8000 | Django API (exposto via Nginx) |
-| `frontend` | 3000 | React SPA (exposto via Nginx) |
-| `nginx` | 80 | Servidor reverso que roteia os serviços |
+| `backend` | 8000 | Django API |
+| `frontend` | 3000 | React SPA |
 
 ### Volumes
 Os dados persistem em volumes mesmo após parar containers:
 - `postgres_data` - Banco de dados PostgreSQL
-- `static_volume` - Arquivos estáticos (CSS, JS, admin)
-- `media_volume` - Uploads de usuários (imagens, etc)
 
 ### Produção
 
