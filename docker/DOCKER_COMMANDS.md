@@ -1,6 +1,8 @@
 # Docker Commands - Media Vault
 
-Guia rapido para subir, iniciar, parar, inspecionar e acompanhar a saude dos containers do projeto.
+Guia rapido para subir, iniciar, parar, inspecionar e acompanhar os containers do projeto.
+
+Para detalhes sobre health check, consulte [`HEALTH_CHECK.md`](HEALTH_CHECK.md).
 
 > Execute os comandos abaixo a partir da raiz do projeto: `ProjetoDevOps`.
 
@@ -125,44 +127,6 @@ API:
 ```powershell
 curl http://localhost:8000/api
 ```
-
----
-
-## Health Check
-
-O `docker-compose.yml` possui health check configurado para o PostgreSQL (`db`) usando `pg_isready`.
-
-### Ver status resumido
-
-```powershell
-docker compose -f docker/docker-compose.yml ps
-```
-
-Procure por algo como:
-
-```text
-media_vault_db    running (healthy)
-```
-
-### Inspecionar health check do banco
-
-```powershell
-docker inspect media_vault_db --format "{{json .State.Health}}"
-```
-
-### Ver somente o status do health check
-
-```powershell
-docker inspect media_vault_db --format "{{.State.Health.Status}}"
-```
-
-Possiveis resultados:
-
-| Status | Significado |
-| --- | --- |
-| `starting` | Container iniciou, mas o health check ainda esta validando |
-| `healthy` | Servico esta respondendo corretamente |
-| `unhealthy` | Servico falhou nos testes de saude |
 
 ---
 
@@ -299,4 +263,3 @@ docker compose -f docker/docker-compose.yml stop
 | Backend | <http://localhost:8000> |
 | API | <http://localhost:8000/api> |
 | PostgreSQL | `localhost:5432` |
-
