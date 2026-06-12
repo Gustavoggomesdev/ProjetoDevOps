@@ -118,3 +118,37 @@ button {
     width: 100%;
   }
 }
+
+/* Botão hamburguer — mobile */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 998;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.mobile-menu-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+@media (max-width: 768px) {
+  .mobile-menu-btn { display: flex; }
+  .app-content { margin-left: 0; width: 100%; padding-top: 64px; }
+}
+
+.search-result-info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
