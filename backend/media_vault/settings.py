@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     # Third-party apps
     "rest_framework",
     "corsheaders",
-    "django_celery_beat",
     # Local apps
     "apps.movies",
     "apps.games",
@@ -154,13 +153,6 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": config("JWT_EXPIRATION_HOURS", default=24),
     "ALGORITHM": config("JWT_ALGORITHM", default="HS256"),
 }
-
-# Celery Settings
-CELERY_BROKER_URL = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://localhost:6379/0")
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
 
 # Security Settings
 if not DEBUG:

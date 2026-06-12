@@ -17,12 +17,12 @@ Media Vault - Arquitetura do Projeto
     │                        │                        │
     ↓                        ↓                        ↓
 ┌─────────────┐      ┌──────────────┐      ┌──────────────┐
-│  Django     │      │  PostgreSQL  │      │    Redis     │
-│  Backend    │←────→│   Database   │      │    Cache/    │
-│ REST API    │      │              │      │   Message    │
-└─────────────┘      └──────────────┘      │    Broker    │
-     ↑                                      │   (Celery)   │
-     │                                      └──────────────┘
+│  Django     │      │  PostgreSQL  │
+│  Backend    │←────→│   Database   │
+│ REST API    │      │              │
+└─────────────┘      └──────────────┘
+     ↑
+     │
      │
   ┌──┴──────────────────────────────────────────┐
   │         Django Apps                          │
@@ -88,9 +88,6 @@ Serviços:
   └──────┬───────┘
          │
   ┌──────┴───────┐
-  │  redis       │  Redis 7 Alpine
-  └──────┬───────┘
-         │
   ┌──────┴───────────────────┐
   │  backend                 │  Django + Gunicorn + Python 3.11
   └──────┬─────────────────────┘
