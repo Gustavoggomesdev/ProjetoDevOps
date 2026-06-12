@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Carousel from '../components/Carousel';
-import { mockItems, getItemsByType } from '../data/mockData';
+import { getItemsByType } from '../data/mockData';
 
 const Home = () => {
   const trendingItems = getItemsByType('trending').slice(0, 10);
