@@ -25,7 +25,6 @@
 - [x] Estatísticas do usuário
 - [x] Admin Django customizado
 - [x] Testes unitários com Pytest
-- [x] Configuração do Celery para tarefas assíncronas
 - [x] CORS habilitado para frontend
 
 ### ✅ Frontend React
@@ -37,7 +36,7 @@
 
 ### ✅ Infraestrutura & DevOps
 - [x] Docker com multi-stage build otimizado
-- [x] Docker Compose com 4 serviços (PostgreSQL, Redis, Backend, Frontend)
+- [x] Docker Compose com 3 serviços (PostgreSQL, Backend, Frontend)
 - [x] GitHub Actions CI/CD pipeline
 - [x] Nginx/Gunicorn pronto para produção
 - [x] Variáveis de ambiente configuráveis
@@ -86,7 +85,6 @@ ProjetoDevOps/                          ← Raiz do projeto
 │   │   ├── urls.py                      ← Rotas e API endpoints
 │   │   ├── wsgi.py                      ← WSGI (produção)
 │   │   ├── asgi.py                      ← ASGI (async)
-│   │   └── celery.py                    ← Configuração Celery
 │   │
 │   ├── apps/                            ← Aplicações Django
 │   │   ├── movies/                      ← App de filmes
@@ -211,8 +209,6 @@ docker-compose -f docker/docker-compose.yml up
 - **Django 4.2** - Framework Web
 - **Django REST Framework** - API REST
 - **PostgreSQL** - Banco de dados
-- **Redis** - Cache e Message Broker
-- **Celery** - Tarefas assíncronas
 - **Gunicorn** - Servidor WSGI
 - **Pytest** - Framework de testes
 
@@ -237,7 +233,7 @@ docker-compose -f docker/docker-compose.yml up
 ✅ Testes unitários (Pytest)
 ✅ Admin Django customizado
 ✅ Isolamento de dados por usuário
-✅ Docker Compose com 4 serviços
+✅ Docker Compose com 3 serviços
 ✅ CI/CD com GitHub Actions
 ✅ Documentação completa
 ✅ CORS habilitado
