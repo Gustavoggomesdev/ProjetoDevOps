@@ -1,0 +1,55 @@
+# Render Blueprint - Infraestrutura como código.
+#
+# Este arquivo descreve os serviços que rodam em produção no Render:
+# o backend Django (containerizado com o Dockerfile do projeto) e o
+# banco PostgreSQL. O Render lê este arquivo automaticamente quando o
+# repositório é conectado como um "Blueprint" (New > Blueprint no painel).
+#
+# Documentação: https://render.com/docs/infrastructure-as-code
+
+databases:
+  - name: media-vault-db
+    plan: free
+    databaseName: media_vault_db
+    user: media_vault_user
+
+services:
+  - type: web
+    name: media-vault-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./docker/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health/
+    autoDeploy: false
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
+      - key: DB_ENGINE
+        value: django.db.backends.postgresql
+      - key: DB_NAME
+        fromDatabase:
+          name: media-vault-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: media-vault-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: media-vault-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: media-vault-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: media-vault-db
+          property: port
