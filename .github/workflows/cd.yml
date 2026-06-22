@@ -1,0 +1,61 @@
+name: CD - Deploy
+
+# Pipeline de Entrega Contínua (CD).
+# Dispara o deploy automático no Render somente depois que o pipeline de CI
+# (lint, testes, build, segurança) passar com sucesso na branch main.
+#
+# Como funciona:
+# 1. O job "wait-for-ci" espera o workflow "CI/CD Pipeline" (ci.yml) terminar
+#    para o mesmo commit e verifica se ele passou.
+# 2. Se passou, o job "deploy" chama o Deploy Hook do Render via curl.
+#    O Render então faz pull do repositório, builda a imagem Docker
+#    (usando o mesmo Dockerfile do projeto) e publica a nova versão.
+#
+# Pré-requisito: configurar o secret RENDER_DEPLOY_HOOK_URL no GitHub
+# (Settings > Secrets and variables > Actions > New repository secret).
+# O valor é a Deploy Hook URL gerada no painel do Render para o Web Service.
+# Veja docs/DEPLOY.md para o passo a passo completo.
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy no Render
+    runs-on: ubuntu-latest
+    # Só prossegue se o workflow de CI que disparou este evento terminou com sucesso.
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Disparar deploy via Render Deploy Hook
+        run: |
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+            echo "RENDER_DEPLOY_HOOK_URL não configurado nos secrets do repositório."
+            echo "Configure em Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+          echo "CI passou no commit ${{ github.event.workflow_run.head_sha }}. Disparando deploy..."
+
+          response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}")
+
+          if [ "$response" -ge 200 ] && [ "$response" -lt 300 ]; then
+            echo "Deploy disparado com sucesso (HTTP $response)."
+          else
+            echo "Falha ao disparar o deploy (HTTP $response)."
+            exit 1
+          fi
+
+      - name: Resumo do deploy
+        run: |
+          echo "### Deploy disparado :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.event.workflow_run.head_sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch:** main" >> $GITHUB_STEP_SUMMARY
+          echo "- **Acompanhe o progresso no painel do Render.**" >> $GITHUB_STEP_SUMMARY

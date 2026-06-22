@@ -1,0 +1,230 @@
+/* Header Styles */
+.header {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+
+.header-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Searchbar */
+.search-container {
+  flex: 1;
+  position: relative;
+  min-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 16px 12px 40px;
+  background-color: var(--darker-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Filtros */
+.filters-container {
+  position: relative;
+}
+
+.filters-button {
+  padding: 12px 16px;
+  background-color: var(--darker-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.filters-button:hover,
+.filters-button.active {
+  border-color: var(--primary-color);
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Dropdown de filtros */
+.filters-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  min-width: 250px;
+  max-width: 300px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  z-index: 600;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filters-dropdown h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.filters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.filter-option:hover {
+  background-color: var(--hover-bg);
+}
+
+.filter-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.filter-option span {
+  font-size: 14px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.filter-option:hover span {
+  color: var(--text-primary);
+}
+
+/* Ações dos filtros */
+.filters-actions {
+  display: flex;
+  gap: 8px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+}
+
+.btn-apply,
+.btn-clear {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-apply {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-apply:hover {
+  background-color: #4f46e5;
+}
+
+.btn-clear {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.btn-clear:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .header {
+    padding: 16px;
+  }
+
+  .header-container {
+    gap: 12px;
+  }
+
+  .search-container {
+    min-width: 200px;
+  }
+
+  .filters-dropdown {
+    min-width: 220px;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 12px;
+  }
+
+  .header-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .search-container {
+    min-width: auto;
+  }
+
+  .filters-dropdown {
+    right: auto;
+    left: 0;
+  }
+}

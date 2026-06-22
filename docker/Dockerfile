@@ -23,6 +23,10 @@ RUN pip install -r requirements.txt
 # Copy project files
 COPY backend/ .
 
+# Copy entrypoint (aplica migrations antes de subir o servidor)
+COPY docker/docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
 # Create a non-root user
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
@@ -33,5 +37,5 @@ RUN python manage.py collectstatic --noinput || true
 # Expose port
 EXPOSE 8000
 
-# Run Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "media_vault.wsgi:application"]
+# Aplica migrations e inicia o Gunicorn
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
