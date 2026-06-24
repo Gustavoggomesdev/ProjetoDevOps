@@ -82,7 +82,7 @@ def test_movies_statistics_agrega_contagens():
     response = _client_for(user).get("/api/movies/statistics/")
     assert response.status_code == 200
     assert response.data == {
-        "total_movies": 99,
+        "total_movies": 3,
         "watched": 1,
         "watching": 1,
         "wishlist": 1,
