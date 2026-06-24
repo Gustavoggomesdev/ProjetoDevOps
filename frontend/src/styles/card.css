@@ -32,6 +32,41 @@
   object-fit: cover;
 }
 
+/* Botão de favorito sobre a imagem */
+.card-favorite-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 2;
+}
+.card-favorite-btn:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+  transform: scale(1.1);
+}
+.card-favorite-btn.active {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+}
+.card-favorite-btn .ds-icon {
+  width: 16px;
+  height: 16px;
+}
+.card-favorite-btn.active .ds-icon {
+  fill: currentColor;
+}
+
 /* Conteúdo lateral direito */
 .card-content {
   flex: 1;
@@ -77,6 +112,42 @@
 .rating-votes {
   color: var(--text-secondary);
   font-size: 12px;
+}
+
+.rating-votes--user {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Botão watchlist */
+.card-watchlist-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+  width: 100%;
+}
+.card-watchlist-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+.card-watchlist-btn.active {
+  background-color: rgba(99, 102, 241, 0.12);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+.card-watchlist-btn .ds-icon {
+  width: 14px;
+  height: 14px;
 }
 
 /* Botões */

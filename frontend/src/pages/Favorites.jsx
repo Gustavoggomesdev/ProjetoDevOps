@@ -1,22 +1,15 @@
 import React from 'react';
 import Header from '../components/Header';
 import Carousel from '../components/Carousel';
-import { LoadingSpinner, ErrorState, EmptyState } from '../components/LoadingState';
-import useFetch from '../hooks/useFetch';
+import { EmptyState } from '../components/LoadingState';
+import { mockItems } from '../data/mockData';
+import { useLibrary } from '../context/LibraryContext';
 import useSearch from '../hooks/useSearch';
-import api from '../services/api';
-
-// O backend filtra pelo usuário autenticado via token JWT
-const fetchFavorites = () => api.get('/movies/', { params: { status: 'favorite' } });
 
 const Favorites = () => {
-  const { data, loading, error, refetch } = useFetch(fetchFavorites, []);
-  const items = data?.results ?? data ?? [];
-
+  const { library } = useLibrary();
+  const items = mockItems.filter((i) => library.favorites.includes(i.id));
   const { filtered, query, setQuery, handleFilter } = useSearch(items, ['title']);
-
-  if (loading) return <LoadingSpinner message="Carregando favoritos..." />;
-  if (error) return <ErrorState message={error} onRetry={refetch} />;
 
   return (
     <div className="favorites-page">
@@ -27,7 +20,7 @@ const Favorites = () => {
         </div>
         {items.length === 0 ? (
           <EmptyState
-            message="Você ainda não tem favoritos. Marque itens como favorito nas páginas de filmes, séries ou jogos!"
+            message="Você ainda não tem favoritos. Clique no ícone de coração em qualquer card para adicionar!"
             icon="⭐"
           />
         ) : filtered.length > 0 ? (

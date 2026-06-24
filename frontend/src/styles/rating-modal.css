@@ -1,0 +1,85 @@
+.rating-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.rating-modal {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  text-align: center;
+}
+
+.rating-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+.rating-modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.rating-modal-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+
+.rating-modal-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+}
+
+.rating-modal-stars {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.rating-star-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+.rating-star-btn:hover { transform: scale(1.15); }
+
+.rating-modal-value {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  min-height: 18px;
+}
+
+.rating-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}

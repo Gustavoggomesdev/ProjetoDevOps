@@ -1,19 +1,13 @@
 import React from 'react';
 import Header from '../components/Header';
 import Carousel from '../components/Carousel';
-import { LoadingSpinner, ErrorState, EmptyState } from '../components/LoadingState';
-import { moviesService } from '../services/api';
-import useFetch from '../hooks/useFetch';
+import { EmptyState } from '../components/LoadingState';
+import { mockItems } from '../data/mockData';
 import useSearch from '../hooks/useSearch';
 
 const Movies = () => {
-  const { data, loading, error, refetch } = useFetch(() => moviesService.getAll(), []);
-  const items = data?.results ?? data ?? [];
-
-  const { filtered, query, setQuery, handleFilter } = useSearch(items, ['title', 'description']);
-
-  if (loading) return <LoadingSpinner message="Carregando filmes..." />;
-  if (error) return <ErrorState message={error} onRetry={refetch} />;
+  const items = mockItems.filter((i) => i.type === 'movie');
+  const { filtered, query, setQuery, handleFilter } = useSearch(items, ['title']);
 
   return (
     <div className="movies-page">
@@ -31,7 +25,7 @@ const Movies = () => {
           <Carousel title="Todos os Filmes" items={filtered} />
         ) : (
           <EmptyState
-            message={query ? `Nenhum filme encontrado para "${query}".` : 'Nenhum filme cadastrado ainda.'}
+            message={query ? `Nenhum item encontrado para "${query}".` : 'Nenhum item cadastrado ainda.'}
             icon="🎬"
           />
         )}
