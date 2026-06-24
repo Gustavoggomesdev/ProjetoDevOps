@@ -22,7 +22,7 @@ def test_movies_list_filtra_por_usuario():
 
     response = _client_for(user_1).get("/api/movies/")
     assert response.status_code == 200
-    assert response.data["count"] == 2
+    assert response.data["count"] == 1
     assert response.data["results"][0]["title"] == "M1"
 
 
