@@ -6,6 +6,7 @@ import os
 import sys
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,16 +78,26 @@ IS_TESTING = "PYTEST_CURRENT_TEST" in os.environ or any(
 USE_EXTERNAL_DB_FOR_TESTS = config(
     "USE_EXTERNAL_DB_FOR_TESTS", default=False, cast=bool
 )
-DATABASES = {
-    "default": {
-        "ENGINE": config("DB_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": config("DB_NAME", default=BASE_DIR / "db.sqlite3"),
-        "USER": config("DB_USER", default=""),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST": config("DB_HOST", default=""),
-        "PORT": config("DB_PORT", default=""),
+DATABASE_URL = config("DATABASE_URL", default="")
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=config("DB_SSLMODE", default="") == "require",
+        )
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": config("DB_ENGINE", default="django.db.backends.sqlite3"),
+            "NAME": config("DB_NAME", default=BASE_DIR / "db.sqlite3"),
+            "USER": config("DB_USER", default=""),
+            "PASSWORD": config("DB_PASSWORD", default=""),
+            "HOST": config("DB_HOST", default=""),
+            "PORT": config("DB_PORT", default=""),
+        }
+    }
 DB_SSLMODE = config("DB_SSLMODE", default="")
 if DB_SSLMODE:
     DATABASES["default"]["OPTIONS"] = {"sslmode": DB_SSLMODE}
