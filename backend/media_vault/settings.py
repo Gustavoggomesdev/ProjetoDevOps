@@ -5,8 +5,8 @@ Django settings for media_vault project.
 import os
 import sys
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 from decouple import config
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,12 +80,17 @@ USE_EXTERNAL_DB_FOR_TESTS = config(
 )
 DATABASE_URL = config("DATABASE_URL", default="")
 if DATABASE_URL:
+    db_url = urlparse(DATABASE_URL)
     DATABASES = {
-        "default": dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=config("DB_SSLMODE", default="") == "require",
-        )
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": unquote(db_url.path.lstrip("/")),
+            "USER": unquote(db_url.username or ""),
+            "PASSWORD": unquote(db_url.password or ""),
+            "HOST": db_url.hostname or "",
+            "PORT": db_url.port or "",
+            "CONN_MAX_AGE": 600,
+        }
     }
 else:
     DATABASES = {
