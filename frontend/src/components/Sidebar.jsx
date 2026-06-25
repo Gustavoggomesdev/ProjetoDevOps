@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { NavLink } from 'react-router-dom';
 import { Icon } from '../design-system';
 import '../styles/sidebar.css';
 
@@ -15,13 +14,6 @@ const menuItems = [
 
 const Sidebar = ({ mobileOpen, onMobileClose }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   return (
     <>
@@ -68,27 +60,6 @@ const Sidebar = ({ mobileOpen, onMobileClose }) => {
             ))}
           </ul>
         </nav>
-
-        {/* Perfil + Logout */}
-        <div className="sidebar-profile">
-          <div className="profile-info" title={user?.username || 'Perfil'}>
-            <span className="profile-avatar">
-              <Icon name="user" />
-            </span>
-            {!isCollapsed && (
-              <span className="profile-text">{user?.username || 'Usuário'}</span>
-            )}
-          </div>
-          <button
-            className="logout-button"
-            onClick={handleLogout}
-            title="Sair"
-            aria-label="Sair da conta"
-          >
-            <Icon name="logout" />
-            {!isCollapsed && <span>Sair</span>}
-          </button>
-        </div>
       </aside>
     </>
   );

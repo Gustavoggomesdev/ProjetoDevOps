@@ -1,19 +1,13 @@
 import React from 'react';
 import Header from '../components/Header';
 import Carousel from '../components/Carousel';
-import { LoadingSpinner, ErrorState, EmptyState } from '../components/LoadingState';
-import { gamesService } from '../services/api';
-import useFetch from '../hooks/useFetch';
+import { EmptyState } from '../components/LoadingState';
+import { mockItems } from '../data/mockData';
 import useSearch from '../hooks/useSearch';
 
 const Games = () => {
-  const { data, loading, error, refetch } = useFetch(() => gamesService.getAll(), []);
-  const items = data?.results ?? data ?? [];
-
-  const { filtered, query, setQuery, handleFilter } = useSearch(items, ['title', 'description']);
-
-  if (loading) return <LoadingSpinner message="Carregando jogos..." />;
-  if (error) return <ErrorState message={error} onRetry={refetch} />;
+  const items = mockItems.filter((i) => i.type === 'game');
+  const { filtered, query, setQuery, handleFilter } = useSearch(items, ['title']);
 
   return (
     <div className="games-page">
@@ -31,7 +25,7 @@ const Games = () => {
           <Carousel title="Todos os Jogos" items={filtered} />
         ) : (
           <EmptyState
-            message={query ? `Nenhum jogo encontrado para "${query}".` : 'Nenhum jogo cadastrado ainda.'}
+            message={query ? `Nenhum item encontrado para "${query}".` : 'Nenhum item cadastrado ainda.'}
             icon="🎮"
           />
         )}
