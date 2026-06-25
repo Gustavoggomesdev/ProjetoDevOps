@@ -87,6 +87,10 @@ DATABASES = {
         "PORT": config("DB_PORT", default=""),
     }
 }
+DB_SSLMODE = config("DB_SSLMODE", default="")
+if DB_SSLMODE:
+    DATABASES["default"]["OPTIONS"] = {"sslmode": DB_SSLMODE}
+
 if IS_TESTING and not USE_EXTERNAL_DB_FOR_TESTS:
     DATABASES = {
         "default": {
