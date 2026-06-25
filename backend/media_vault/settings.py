@@ -5,6 +5,7 @@ Django settings for media_vault project.
 import os
 import sys
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,16 +78,31 @@ IS_TESTING = "PYTEST_CURRENT_TEST" in os.environ or any(
 USE_EXTERNAL_DB_FOR_TESTS = config(
     "USE_EXTERNAL_DB_FOR_TESTS", default=False, cast=bool
 )
-DATABASES = {
-    "default": {
-        "ENGINE": config("DB_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": config("DB_NAME", default=BASE_DIR / "db.sqlite3"),
-        "USER": config("DB_USER", default=""),
-        "PASSWORD": config("DB_PASSWORD", default=""),
-        "HOST": config("DB_HOST", default=""),
-        "PORT": config("DB_PORT", default=""),
+DATABASE_URL = config("DATABASE_URL", default="")
+if DATABASE_URL:
+    db_url = urlparse(DATABASE_URL)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": unquote(db_url.path.lstrip("/")),
+            "USER": unquote(db_url.username or ""),
+            "PASSWORD": unquote(db_url.password or ""),
+            "HOST": db_url.hostname or "",
+            "PORT": db_url.port or "",
+            "CONN_MAX_AGE": 600,
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": config("DB_ENGINE", default="django.db.backends.sqlite3"),
+            "NAME": config("DB_NAME", default=BASE_DIR / "db.sqlite3"),
+            "USER": config("DB_USER", default=""),
+            "PASSWORD": config("DB_PASSWORD", default=""),
+            "HOST": config("DB_HOST", default=""),
+            "PORT": config("DB_PORT", default=""),
+        }
+    }
 DB_SSLMODE = config("DB_SSLMODE", default="")
 if DB_SSLMODE:
     DATABASES["default"]["OPTIONS"] = {"sslmode": DB_SSLMODE}
