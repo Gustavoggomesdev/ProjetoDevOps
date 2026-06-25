@@ -1,0 +1,16 @@
+# Evita copiar arquivos pesados/irrelevantes para dentro do contexto de
+# build do Docker, deixando o build mais rápido e a imagem mais limpa.
+
+node_modules
+build
+
+.env
+.env.local
+.env.development
+.env.production
+
+.git
+.gitignore
+
+npm-debug.log*
+.DS_Store

@@ -63,6 +63,24 @@ Usamos o [Render](https://render.com) porque:
 A partir daqui, todo merge na `main` que passar o CI dispara o deploy
 automaticamente.
 
+## Frontend (containerização)
+
+O frontend também é publicado como um Web Service Docker no Render
+(`media-vault-frontend` no `render.yaml`), usando o `frontend/Dockerfile`:
+um build multi-stage que gera os arquivos estáticos com Node e os serve em
+produção com Nginx (imagem final enxuta, sem Node/node_modules).
+
+Detalhe importante: o Create React App só lê variáveis `REACT_APP_*`
+durante o build (`npm run build`), não em runtime. Por isso a variável
+`REACT_APP_API_URL` (URL do backend) precisa ser conhecida **no momento do
+build da imagem**, e não como uma env var comum lida depois do deploy.
+Configure o valor correspondente à URL pública do `media-vault-backend` ao
+criar o Blueprint.
+
+Para desenvolvimento local, o `docker/docker-compose.yml` usa
+`frontend/Dockerfile.dev` (hot-reload com `npm start`), separado do
+`frontend/Dockerfile` de produção.
+
 ## Por que `autoDeploy: false` no `render.yaml`
 
 Desligamos o auto-deploy nativo do Render porque ele dispararia a cada push,

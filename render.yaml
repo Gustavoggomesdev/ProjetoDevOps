@@ -53,3 +53,16 @@ services:
         fromDatabase:
           name: media-vault-db
           property: port
+
+  - type: web
+    name: media-vault-frontend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /
+    autoDeploy: false
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false
+
